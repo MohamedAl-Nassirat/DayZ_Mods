@@ -1,0 +1,12 @@
+WitchHood_Black - Witch Hood -> RETEXTURE
+LeatherPants_Beigh - Leather Pants -> RETEXTURE
+LeatherJacket_Beige - Leather Jacket -> RETEXTURE
+
+
+
+
+* Zombie set see you but hear your footsteps (LEAD HORDES)
+* Zombie skinned spawns items
+* Change to crafting items from zombie pelts + rope
+* implement a zombie walk to nerf the ability to just free roam
+* Animiation for 15 hp walking is good for zombie walk

@@ -1,0 +1,38 @@
+class ActionSkinInfected: ActionSkinning
+{
+    override void OnFinishProgressServer(ActionData action_data)
+    {
+        // Retrieve the target entity
+        super.OnFinishProgressServer(action_data);
+        EntityAI target = EntityAI.Cast(action_data.m_Target.GetObject());
+        if (target && target.IsInherited(ZombieBase))
+        {
+            // Log the target's class name and position
+            Print("[ActionSkinInfected] Target Class: " + target.GetType());
+            vector pos = target.GetPosition();
+            Print("[ActionSkinInfected] Target Position: " + pos.ToString());
+
+            // Attempt to create the ZombieDress item
+            EntityAI dress = EntityAI.Cast(GetGame().CreateObject("ZombieJacket", pos));
+
+            // Attempt to create the ZombieMask item
+            EntityAI mask = EntityAI.Cast(GetGame().CreateObject("ZombieMask", pos));
+            if (mask)
+            {
+                Print("[ActionSkinInfected] ZombieMask spawned successfully at position: " + pos.ToString());
+            }
+            else
+            {
+                Print("[ActionSkinInfected] Failed to spawn ZombieMask at position: " + pos.ToString());
+            }
+
+            // Delete the target entity
+            target.Delete();
+            Print("[ActionSkinInfected] Target entity deleted.");
+        }
+        else
+        {
+            Print("[ActionSkinInfected] Target is null or not a ZombieBase.");
+        }
+    }
+}
