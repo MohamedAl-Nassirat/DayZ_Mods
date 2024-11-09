@@ -2,7 +2,7 @@ class CfgPatches
 {
     class HiddenZombie
     {
-        units[] = {"ZombieJacket", "ZombieMask"};
+        units[] = {"ZombieJacket", "ZombieMask", "ZombiePelt"};
         weapons[] = {};
         requiredVersion = 0.1;
         requiredAddons[] = {"DZ_Data", "DZ_Characters"};
@@ -39,11 +39,16 @@ class CfgMods
     };
 };
 
+
+
 class CfgVehicles
 {
+
+    #include "Config\zombieSkinningConfig.c"
     
-    class BalaclavaMask_ColorBase;
+    class Shemag_ColorBase;
     class LeatherJacket_ColorBase;
+    class Pelt_Base;
 
     // Define the custom Zombie Dress
     class ZombieJacket: LeatherJacket_ColorBase
@@ -53,7 +58,7 @@ class CfgVehicles
         descriptionShort = "A jacket born from the flesh of zombies.";
         model = "\DZ\characters\tops\top_leatherjacket_g.p3d"; // Path to the original model
         hiddenSelections[] = {"camoGround", "camoMale", "camoFemale"};
-        hiddenSelectionsTextures[] = {"\HiddenZombie\Data\top_zombiejacket_co.paa", "\HiddenZombie\Data\top_zombiejacket_co.paa", "\HiddenZombie\Data\top_zombiejacket_co.paa"};
+        hiddenSelectionsTextures[] = {"\HiddenZombie\Data\zombieJacket\top_zombiejacket_co.paa", "\HiddenZombie\Data\zombieJacket\top_zombiejacket_co.paa", "\HiddenZombie\Data\zombieJacket\top_zombiejacket_co.paa"};
         inventorySlot[] = {"Body"};
         itemInfo[] = {"Clothing", "Body"};
         weight = 1000;
@@ -74,19 +79,24 @@ class CfgVehicles
 
 
     };
-
-
+\
     // Define the custom Zombie Mask
-    class ZombieMask: BalaclavaMask_ColorBase
+    class ZombieMask: Shemag_ColorBase
     {
         scope = 2;
         displayName = "Zombie Mask";
         descriptionShort = "A mask worn by zombies.";
-        model = "\DZ\characters\masks\balaclava_g.p3d"; // Path to the original model
-        hiddenSelections[] = {"camoGround", "camoMale", "camoFemale"};
-        hiddenSelectionsTextures[] = {"\HiddenZombie\data\zombie_mask.paa", "\HiddenZombie\data\zombie_mask.paa", "\HiddenZombie\data\zombie_mask.paa"};
-        inventorySlot[] = {"Mask"};
-        itemInfo[] = {"Clothing", "Mask"};
+        model = "\DZ\characters\headgear\ShemagHybrid_g.p3d";
+        hiddenSelections[] = {"camoGround", "camoMale_H", "camoMale_M", "camoFemale_H", "camoFemale_M"};
+        hiddenSelectionsTextures[] = {
+            "\HiddenZombie\data\zombieScarf\zombie_mask.paa", // Ground texture
+            "\HiddenZombie\data\zombieScarf\zombie_mask.paa", // Male head texture
+            "\HiddenZombie\data\zombieScarf\zombie_mask.paa", // Male mask texture
+            "\HiddenZombie\data\zombieScarf\zombie_mask.paa", // Female head texture
+            "\HiddenZombie\data\zombieScarf\zombie_mask.paa"  // Female mask texture
+        };
+        inventorySlot[] = {"Headgear"};
+        itemInfo[] = {"Clothing", "Headgear"};
         weight = 200;
         itemSize[] = {2, 2};
         heatIsolation = 1;
@@ -102,29 +112,24 @@ class CfgVehicles
                 };
             };
         };
-
-        class ClothingTypes
-        {
-            male = "\DZ\characters\masks\balaclava_m.p3d";
-            female = "\DZ\characters\masks\balaclava_f.p3d";
-        };
-
     };
 
-    class Skinning
+
+    class ZombiePelt: Pelt_Base
     {
-        class ObtainedSteaks
-        {
-            item = "ZombieJacket";
-            count = 1;
-            transferToolDamageCoef = 1;
-        };
-        class ObtainedPelt
-        {
-            item = "ZombieMask";
-            count = 1;
-            transferToolDamageCoef = 1;
-        };
+        scope = 2;
+        displayName = "Zombie Pelt";
+        descriptionShort = "A piece of pelt from a zombie.";
+        model = "\DZ\gear\consumables\pelt_pig.p3d"; // Path to your pelt model
+        hiddenSelections[] = {"camo"};
+        hiddenSelectionsTextures[] = {"\HiddenZombie\Data\zombieLeather\zombie_pelt.paa"};
+        weight = 500;
+        itemSize[] = {2, 2};
     };
+
+
+
+
+
 
 };

@@ -1,12 +1,12 @@
-WitchHood_Black - Witch Hood -> RETEXTURE
+shemagh_red_co - Red Shemgah -> RETEXTURE
 LeatherPants_Beigh - Leather Pants -> RETEXTURE
 LeatherJacket_Beige - Leather Jacket -> RETEXTURE
 
 
 
-
-* Zombie set see you but hear your footsteps (LEAD HORDES)
-* Zombie skinned spawns items
-* Change to crafting items from zombie pelts + rope
-* implement a zombie walk to nerf the ability to just free roam
-* Animiation for 15 hp walking is good for zombie walk
+* Animiation for 15 hp walking is good for zombie walk ? Set walking speed idk
+ 
+    - Manic Rating: x amount of wear = y amount of manic Rating
+    - mainc events slowly turn u into zombies
+    - manic events: 
+        - <random hunger loss to 0% - craving humans>
