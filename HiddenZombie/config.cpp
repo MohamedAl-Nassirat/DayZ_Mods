@@ -39,12 +39,41 @@ class CfgMods
     };
 };
 
+class CfgSoundShaders
+{
+    class ZombieWhistle_SoundShader
+    {
+        samples[] = {{"\HiddenZombie\Data\sounds\sound.ogg", 1}};
+        volume = 1.0;
+        range = 50; // Range for the sound
+    };
+};
+
+class CfgSoundSets
+{
+    class ZombieWhistle_SoundSet
+    {
+        soundShaders[] = {"ZombieWhistle_SoundShader"};
+        volumeFactor = 1.0;
+        spatial = 1;
+        doppler = 0;
+        loop = 0;
+    };
+};
+
 
 
 class CfgVehicles
 {
 
     #include "Config\zombieSkinningConfig.c"
+
+    class SurvivorBase; 
+    class ZombieNoise
+    {
+        strength = 200;
+        type = "shot";
+    };
     
     class Shemag_ColorBase;
     class LeatherJacket_ColorBase;
@@ -80,20 +109,57 @@ class CfgVehicles
 
     };
 \
-    // Define the custom Zombie Mask
-    class ZombieMask: Shemag_ColorBase
+    // // Define the custom Zombie Mask
+    // class ZombieMask: Shemag_ColorBase
+    // {
+    //     scope = 2;
+    //     displayName = "Zombie Mask";
+    //     descriptionShort = "A mask worn by zombies.";
+    //     model = "\DZ\characters\headgear\ShemagHybrid_g.p3d";
+    //     hiddenSelections[] = {"camoGround", "camoMale_H", "camoMale_M", "camoFemale_H", "camoFemale_M"};
+    //     hiddenSelectionsTextures[] = {
+    //         "\HiddenZombie\data\zombieScarf\zombie_mask.paa", // Ground texture
+    //         "\HiddenZombie\data\zombieScarf\zombie_mask.paa", // Male head texture
+    //         "\HiddenZombie\data\zombieScarf\zombie_mask.paa", // Male mask texture
+    //         "\HiddenZombie\data\zombieScarf\zombie_mask.paa", // Female head texture
+    //         "\HiddenZombie\data\zombieScarf\zombie_mask.paa"  // Female mask texture
+    //     };
+    //     inventorySlot[] = {"Headgear"};
+    //     itemInfo[] = {"Clothing", "Headgear"};
+    //     weight = 200;
+    //     itemSize[] = {2, 2};
+    //     heatIsolation = 1;
+    //     repairableWithKits[] = {5, 3};
+    //     repairCosts[] = {20, 15};
+    //     class DamageSystem
+    //     {
+    //         class GlobalHealth
+    //         {
+    //             class Health
+    //             {
+    //                 hitpoints = 100;
+    //             };
+    //         };
+    //     };
+    // };
+
+
+    class Balaclava3Holes_ColorBase;
+
+    class ZombieMask: Balaclava3Holes_ColorBase
     {
         scope = 2;
-        displayName = "Zombie Mask";
-        descriptionShort = "A mask worn by zombies.";
-        model = "\DZ\characters\headgear\ShemagHybrid_g.p3d";
-        hiddenSelections[] = {"camoGround", "camoMale_H", "camoMale_M", "camoFemale_H", "camoFemale_M"};
+        displayName = "Zombie Skin Mask";
+        descriptionShort = "";
         hiddenSelectionsTextures[] = {
-            "\HiddenZombie\data\zombieScarf\zombie_mask.paa", // Ground texture
-            "\HiddenZombie\data\zombieScarf\zombie_mask.paa", // Male head texture
-            "\HiddenZombie\data\zombieScarf\zombie_mask.paa", // Male mask texture
-            "\HiddenZombie\data\zombieScarf\zombie_mask.paa", // Female head texture
-            "\HiddenZombie\data\zombieScarf\zombie_mask.paa"  // Female mask texture
+            "\HiddenZombie\Data\zombieScarf\Zombie_skinmask_co.paa", 
+            "\HiddenZombie\Data\zombieScarf\Zombie_skinmask_co.paa", 
+            "\HiddenZombie\Data\zombieScarf\Zombie_skinmask_co.paa"
+        };
+        hiddenSelectionsMaterials[] = {
+            "\HiddenZombie\Data\zombieScarf\Zombie_3holes.rvmat", 
+            "\HiddenZombie\Data\zombieScarf\Zombie_3holes.rvmat", 
+            "\HiddenZombie\Data\zombieScarf\Zombie_3holes.rvmat"
         };
         inventorySlot[] = {"Headgear"};
         itemInfo[] = {"Clothing", "Headgear"};
@@ -114,7 +180,6 @@ class CfgVehicles
         };
     };
 
-
     class ZombiePelt: Pelt_Base
     {
         scope = 2;
@@ -123,6 +188,11 @@ class CfgVehicles
         model = "\DZ\gear\consumables\pelt_pig.p3d"; // Path to your pelt model
         hiddenSelections[] = {"camo"};
         hiddenSelectionsTextures[] = {"\HiddenZombie\Data\zombieLeather\zombie_pelt.paa"};
+        canBeSplit= 1;
+        varQuantityInit= 1;
+        varQuantityMin= 0;
+        varQuantityMax= 10;
+        varStackMax= 10;
         weight = 500;
         itemSize[] = {2, 2};
     };
@@ -133,3 +203,6 @@ class CfgVehicles
 
 
 };
+
+
+
