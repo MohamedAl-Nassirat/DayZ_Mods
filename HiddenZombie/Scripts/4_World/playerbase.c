@@ -3,6 +3,15 @@ modded class PlayerBase
     protected bool p_IsUndetectable;
     protected bool p_HasFullZombieSuit;
     protected ref Timer m_HordeLeaderTimer;
+    protected ref HordeLeader hordeLeader;
+
+
+
+    void PlayerBase()
+    {
+        hordeLeader = new HordeLeader(this);  // Initialize HordeLeader
+        SetEventMask(EntityEvent.FRAME);
+    }
 
     override void EEItemAttached(EntityAI item, string slot_name)
     {
@@ -16,126 +25,82 @@ modded class PlayerBase
         UpdateUndetectableStatus();
     }
 
+
+
+    // THIS CAUSES HORDE LEADING TO WORK ONLY UPON ITEMATTACH OR DETTACH
+    // THE K BUTTON WORKS THAT IT PLAYS THE ZOMBIE SOUND LOCALLY ON CLIENT SIDE BUT SERVER DOES NOT HEAR IT SO ZOMBIES DONT AGGRO
+    // NEEDS MAJOR OVERHAUL AND POTENTIAL SERPERATION FROM PLAYERBASE CODE
+    // if (p_HasFullZombieSuit)
+    // {
+    //     EmitZombieNoise();
+    // }
     void UpdateUndetectableStatus()
     {
-
         bool hasPartialSuit = CheckForPartialZombieSuit();
         bool hasFullSuit = CheckForFullZombieSuit();
 
+        p_IsUndetectable = hasPartialSuit;
+        p_HasFullZombieSuit = hasFullSuit;
 
-        p_IsUndetectable = hasPartialSuit; // Player is undetectable if they have the partial suit (Jacket + Pants + Boots)
-        p_HasFullZombieSuit = hasFullSuit; // Player can lead hordes if they have the full suit (Mask + Jacket + Pants + Boots)
-        
-
+        // Activate or deactivate horde leading based on full suit status
         if (p_HasFullZombieSuit)
         {
-            StartHordeLeaderTimer();
+            hordeLeader.Activate();
         }
         else
         {
-            StopHordeLeaderTimer();
-        }
-        // if (bodyAttachment && bodyAttachment.IsKindOf("ZombieMask"))
-        // {
-        //     p_IsUndetectable = true;
-        //     EmitZombieNoise();
-        // }
-        // else
-        // {
-        //     p_IsUndetectable = false;
-        // }
-    }
-
-
-
-    bool CheckForPartialZombieSuit()
-    {
-        EntityAI bodyAttachment = FindAttachmentBySlotName("Body");
-        EntityAI legsAttachment = FindAttachmentBySlotName("Legs");
-        EntityAI feetAttachment = FindAttachmentBySlotName("Feet");
-
-        return bodyAttachment && bodyAttachment.IsKindOf("ZombieJacket");
-        
-        // NOT IMPLEMENTED YET
-        // &&
-            //    legsAttachment && legsAttachment.IsKindOf("ZombiePants") &&
-            //    feetAttachment && feetAttachment.IsKindOf("ZombieBoots");
-    }
-
-    bool CheckForFullZombieSuit()
-    {
-        EntityAI bodyAttachment = FindAttachmentBySlotName("Body");
-        EntityAI legsAttachment = FindAttachmentBySlotName("Legs");
-        EntityAI feetAttachment = FindAttachmentBySlotName("Feet");
-        EntityAI headAttachment = FindAttachmentBySlotName("Head");
-
-        return headAttachment && headAttachment.IsKindOf("ZombieMask");
-
-        // bodyAttachment && bodyAttachment.IsKindOf("ZombieJacket") &&
-        //        legsAttachment && legsAttachment.IsKindOf("ZombiePants") &&
-        //        feetAttachment && feetAttachment.IsKindOf("ZombieBoots") &&
-    }
-
-
-    void StartHordeLeaderTimer()
-    {
-        if (!m_HordeLeaderTimer)
-        {
-            m_HordeLeaderTimer = new Timer(CALL_CATEGORY_GAMEPLAY);
-        }
-
-        if (!m_HordeLeaderTimer.IsRunning())
-        {
-            // Start the timer with a 15-30 second interval
-            m_HordeLeaderTimer.Run(Math.RandomFloatInclusive(15, 30), this, "EmitZombieNoise", null, true);
-        }
-    }
-
-
-    void StopHordeLeaderTimer()
-    {
-        if (m_HordeLeaderTimer && m_HordeLeaderTimer.IsRunning())
-        {
-            m_HordeLeaderTimer.Stop();
+            hordeLeader.Deactivate();
         }
     }
 
 
 
+    // Polling for key press in the update loop
+    // Most defintitly giving us an error right now
+    // override void EOnFrame(IEntity other, float timeSlice)
+    // {
+    //     super.EOnFrame(other, timeSlice);
 
+    //     // Check for the custom input action "ZombieEmitNoise"
+    //     if (GetGame().GetInput().LocalPress("ZombieEmitNoise"))
+    //     {
+    //         Print("Key 'K' pressed for ZombieEmitNoise");
+    //         EmitZombieNoise();
 
+    //         if (p_HasFullZombieSuit)
+    //         {
+    //             Print("Full suit detected on key press. Emitting noise.");
+    //         }
+    //         else
+    //         {
+    //             Print("Full suit not detected on key press. No noise emitted.");
+    //         }
+    //     }
+    // }
 
+    // void EmitZombieNoise()
+    // {
+    //     Print("EmitZombieNoise called");
 
+    //     if (GetGame().IsServer())
+    //     {
+    //         // Emit noise to aggro zombies
+    //         vector position = GetPosition();
+    //         ZombieNoiseEmitter.EmitNoise(position);
+    //         Print("Server-side noise emitted for zombie aggro at position: " + position.ToString());
+    //     }
 
-
-
-
-    void EmitZombieNoise()
-    {
-        // Emit noise only if the player has the full zombie suit (including the mask)
-        if (p_HasFullZombieSuit)
-        {
-            vector position = GetPosition();
-            ZombieNoiseEmitter.EmitNoise(position);
-        }
-
-
-
-        // if (GetGame().IsClient())
-        // {
-        //     // Play the sound effect on the client
-        //     EffectSound sound = SEffectManager.PlaySound("ZombieWhistle_SoundSet", GetPosition());
-        //     if (sound)
-        //     {
-        //         sound.SetAutodestroy(true);
-        //     }
-        // }
-    }
-
-
-
-
-
+    //     if (GetGame().IsClient())
+    //     {
+    //         // Play sound effect on the client
+    //         EffectSound sound = SEffectManager.PlaySound("ZombieWhistle_SoundSet", GetPosition());
+    //         if (sound)
+    //         {
+    //             sound.SetAutodestroy(true);
+    //         }
+    //         Print("Client-side sound effect played.");
+    //     }
+    // }
 
     override bool CanBeTargetedByAI(EntityAI ai)
     {
@@ -146,4 +111,30 @@ modded class PlayerBase
         }
         return super.CanBeTargetedByAI(ai);
     }
+
+
+
+    
+    bool CheckForPartialZombieSuit()
+    {
+        EntityAI bodyAttachment = FindAttachmentBySlotName("Body");
+        EntityAI legsAttachment = FindAttachmentBySlotName("Legs");
+        EntityAI feetAttachment = FindAttachmentBySlotName("Feet");
+
+
+        // Rest of the suit not implemented yet
+        return bodyAttachment && bodyAttachment.IsKindOf("ZombieJacket");
+    }
+
+    bool CheckForFullZombieSuit()
+    {
+        EntityAI bodyAttachment = FindAttachmentBySlotName("Body");
+        EntityAI legsAttachment = FindAttachmentBySlotName("Legs");
+        EntityAI feetAttachment = FindAttachmentBySlotName("Feet");
+        EntityAI headAttachment = FindAttachmentBySlotName("Headgear");
+
+        // Rest of the suit not implemented yet
+        return headAttachment && headAttachment.IsKindOf("ZombieMask");
+    }
+
 }

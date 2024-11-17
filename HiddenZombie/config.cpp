@@ -2,7 +2,7 @@ class CfgPatches
 {
     class HiddenZombie
     {
-        units[] = {"ZombieJacket", "ZombieMask", "ZombiePelt"};
+        units[] = {"ZombieJacket", "ZombieMask", "ZombiePelt", "ZombiePants"};
         weapons[] = {};
         requiredVersion = 0.1;
         requiredAddons[] = {"DZ_Data", "DZ_Characters"};
@@ -27,6 +27,7 @@ class CfgMods
         type = "mod";
         
         dependencies[] = {"World"};
+        inputs = "HiddenZombie/inputs.xml";
 
         class defs
         {
@@ -78,6 +79,7 @@ class CfgVehicles
     class Shemag_ColorBase;
     class LeatherJacket_ColorBase;
     class Pelt_Base;
+    class LeatherPants_ColorBase;
 
     // Define the custom Zombie Dress
     class ZombieJacket: LeatherJacket_ColorBase
@@ -87,7 +89,10 @@ class CfgVehicles
         descriptionShort = "A jacket born from the flesh of zombies.";
         model = "\DZ\characters\tops\top_leatherjacket_g.p3d"; // Path to the original model
         hiddenSelections[] = {"camoGround", "camoMale", "camoFemale"};
-        hiddenSelectionsTextures[] = {"\HiddenZombie\Data\zombieJacket\top_zombiejacket_co.paa", "\HiddenZombie\Data\zombieJacket\top_zombiejacket_co.paa", "\HiddenZombie\Data\zombieJacket\top_zombiejacket_co.paa"};
+        hiddenSelectionsTextures[] = {
+            "\HiddenZombie\Data\zombieJacket\draft_zombiejacket_g_co.paa",
+            "\HiddenZombie\Data\zombieJacket\draft_zombiejacket_g_co.paa",
+            "\HiddenZombie\Data\zombieJacket\draft_zombiejacket_g_co.paa"};
         inventorySlot[] = {"Body"};
         itemInfo[] = {"Clothing", "Body"};
         weight = 1000;
@@ -197,6 +202,37 @@ class CfgVehicles
         itemSize[] = {2, 2};
     };
 
+
+    class ZombiePants: LeatherPants_ColorBase
+    {
+        scope = 2;
+        displayName = "Zombie Pants";
+        descriptionShort = "Pants crafted from the flesh of zombies.";
+        model = "\DZ\characters\pants\pants_leatherpants_g.p3d"; // Path to the default leather pants model
+        hiddenSelections[] = {"camoGround", "camoMale", "camoFemale"};
+        hiddenSelectionsTextures[] = {
+            "\HiddenZombie\Data\zombiePants\draft_zombiepants_co.paa", // Ground texture
+            "\HiddenZombie\Data\zombiePants\draft_zombiepants_co.paa", // Male texture
+            "\HiddenZombie\Data\zombiePants\draft_zombiepants_co.paa"  // Female texture
+        };
+        inventorySlot[] = {"Legs"};
+        itemInfo[] = {"Clothing", "Legs"};
+        weight = 800;
+        itemSize[] = {3, 3};
+        heatIsolation = 1;
+        repairableWithKits[] = {5, 3};
+        repairCosts[] = {25, 20};
+        class DamageSystem
+        {
+            class GlobalHealth
+            {
+                class Health
+                {
+                    hitpoints = 100;
+                };
+            };
+        };
+    };
 
 
 

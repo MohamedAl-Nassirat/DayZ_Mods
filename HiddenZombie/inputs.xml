@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<modded_inputs>
+    <inputs>
+        <actions>
+            <input name="ZombieEmitNoise" loc="toggle_zombie_noise"/>
+        </actions>
+    </inputs>
+    <preset>
+        <input name="ZombieEmitNoise">
+            <btn name="kK"/>
+        </input>
+    </preset>
+</modded_inputs>
