@@ -48,24 +48,27 @@ class HordeLeader
     {
         if (!isActive) return;
 
-        vector position = player.GetPosition();
+        vector playerPos = player.GetPosition();
+        vector orientation = player.GetDirection(); 
+        vector noiseOffset = -orientation * 1.5; 
+        vector noisePosition = playerPos + noiseOffset;
         
         if (GetGame().IsServer())
         {
             // Emit noise to aggro zombies on the server
-            ZombieNoiseEmitter.EmitNoise(position);
-            Print("Server-side noise emitted for zombie aggro at position: " + position.ToString());
+            ZombieNoiseEmitter.EmitNoise(noisePosition);
+            Print("Server-side noise emitted for zombie aggro at position: " + noisePosition.ToString());
         }
 
-        if (GetGame().IsClient())
-        {
-            // Play sound effect on the client
-            EffectSound sound = SEffectManager.PlaySound("ZombieWhistle_SoundSet", position);
-            if (sound)
-            {
-                sound.SetAutodestroy(true);
-            }
-            Print("Client-side sound effect played.");
-        }
+        // if (GetGame().IsClient())
+        // {
+        //     // Play sound effect on the client
+        //     EffectSound sound = SEffectManager.PlaySound("ZombieWhistle_SoundSet", noisePosition);
+        //     if (sound)
+        //     {
+        //         sound.SetAutodestroy(true);
+        //     }
+        //     Print("Client-side sound effect played.");
+        // }
     }
 }

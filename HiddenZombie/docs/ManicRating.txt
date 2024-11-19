@@ -1,0 +1,6 @@
+Manic Level	Effect
+0-25	No noticeable effects.
+26-50	Random mild player tremors.
+51-75	Eyes go blurry often.
+76-99	Hallucinations (e.g., fake zombies, etc.).
+100	Death
