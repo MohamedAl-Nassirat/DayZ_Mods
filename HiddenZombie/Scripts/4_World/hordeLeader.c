@@ -57,18 +57,6 @@ class HordeLeader
         {
             // Emit noise to aggro zombies on the server
             ZombieNoiseEmitter.EmitNoise(noisePosition);
-            Print("Server-side noise emitted for zombie aggro at position: " + noisePosition.ToString());
         }
-
-        // if (GetGame().IsClient())
-        // {
-        //     // Play sound effect on the client
-        //     EffectSound sound = SEffectManager.PlaySound("ZombieWhistle_SoundSet", noisePosition);
-        //     if (sound)
-        //     {
-        //         sound.SetAutodestroy(true);
-        //     }
-        //     Print("Client-side sound effect played.");
-        // }
     }
 }

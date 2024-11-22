@@ -3,17 +3,17 @@ class ManicSystem
     private PlayerBase player;
     private int manicRating;
     private ref Timer manicUpdateTimer;
-    // private Widget hudRoot;
-    // private TextWidget manicTextWidget;
 
     void ManicSystem(PlayerBase playerInstance)
     {
         player = playerInstance;
         manicRating = 0;
         manicUpdateTimer = new Timer(CALL_CATEGORY_GAMEPLAY);
-        // hudRoot = GetGame().GetWorkspace().CreateWidgets("HiddenZombie/manic_rating.layout");
-        // manicTextWidget = TextWidget.Cast(hudRoot.FindAnyWidget("ManicRatingText"));
-        // hudRoot.SetPos(0.5, 0.5);
+
+        if (GetGame().IsServer())
+        {
+            Start();
+        }
     }
 
     void Start()
@@ -31,7 +31,9 @@ class ManicSystem
 
     void UpdateManicRating()
     {
-        if (player && player.CheckForFullZombieSuit())
+        if (!player) return;
+
+        if (player.CheckForFullZombieSuit())
         {
             manicRating = Math.Clamp(manicRating + 5, 0, 100);
             HandleManicEffects();
@@ -41,7 +43,7 @@ class ManicSystem
             manicRating = Math.Clamp(manicRating - 2, 0, 100);
         }
 
-        // UpdateManicUI();
+        SendManicRatingToClient();
     }
 
     void HandleManicEffects()
@@ -70,7 +72,10 @@ class ManicSystem
 
     void CauseTremor()
     {
-        GetGame().GetCallQueue(CALL_CATEGORY_GUI).CallLater(this.DoCameraShake, 0, false);
+        if (GetGame().IsClient())
+        {
+            GetGame().GetCallQueue(CALL_CATEGORY_GUI).CallLater(this.DoCameraShake, 0, false);
+        }
     }
 
     void DoCameraShake()
@@ -80,39 +85,45 @@ class ManicSystem
 
     void CauseBlurEffect()
     {
-        if (player && player.GetGame() && player.GetGame().GetWorld())
+        if (GetGame().IsClient() && GetGame().GetWorld())
         {
-            player.GetGame().GetWorld().SetAperture(0.5);
+            GetGame().GetWorld().SetAperture(0.5);
             GetGame().GetCallQueue(CALL_CATEGORY_GUI).CallLater(this.ResetBlurEffect, Math.RandomIntInclusive(2000, 5000), false);
         }
     }
 
     void ResetBlurEffect()
     {
-        if (player && player.GetGame() && player.GetGame().GetWorld())
+        if (GetGame().IsClient() && GetGame().GetWorld())
         {
-            player.GetGame().GetWorld().SetAperture(1.0);
+            GetGame().GetWorld().SetAperture(1.0);
         }
     }
 
     void CauseHallucinations()
     {
-        vector position = player.GetPosition();
-        vector offset = Vector(Math.RandomFloatInclusive(-5, 5), 0, Math.RandomFloatInclusive(-5, 5));
-        GetGame().CreateObject("SurvivorM_Mirek", position + offset, false, true);
+        if (GetGame().IsClient())
+        {
+            vector position = player.GetPosition();
+            vector offset = Vector(Math.RandomFloatInclusive(-5, 5), 0, Math.RandomFloatInclusive(-5, 5));
+            GetGame().CreateObject("SurvivorM_Mirek", position + offset, false, true);
+        }
     }
 
     void TriggerDeath()
     {
-        player.SetHealth(0);
+        if (GetGame().IsServer())
+        {
+            player.SetHealth(0);
+        }
     }
 
-    // void UpdateManicUI()
-    // {
-    //     if (player && manicTextWidget)
-    //     {
-    //         string message = string.Format("Manic Rating: %1", manicRating);
-    //         manicTextWidget.SetText(message);
-    //     }
-    // }
+    void SendManicRatingToClient()
+    {
+        if (GetGame().IsServer() && player)
+        {
+            auto params = new Param1<int>(manicRating);
+            GetRPCManager().SendRPC("HiddenZombie", "UpdateManicUI", params, true, player.GetIdentity());
+        }
+    }
 }

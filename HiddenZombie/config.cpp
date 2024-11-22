@@ -5,7 +5,7 @@ class CfgPatches
         units[] = {"ZombieJacket", "ZombieMask", "ZombiePelt", "ZombiePants"};
         weapons[] = {};
         requiredVersion = 0.1;
-        requiredAddons[] = {"DZ_Data", "DZ_Characters"};
+        requiredAddons[] = {"DZ_Data", "DZ_Characters", "DZ_Scripts"};
     };
 };
 
@@ -29,14 +29,27 @@ class CfgMods
         dependencies[] = {"World"};
         inputs = "HiddenZombie/inputs.xml";
 
+
         class defs
         {
+            class gameScriptModule
+            {
+                value = "";
+                files[] = {"HiddenZombie/scripts/3_Game"};
+            };
             class worldScriptModule
             {
                 value = "";
                 files[] = {"HiddenZombie/scripts/4_World"};
             };
+            class missionScriptModule
+            {
+                value = "";
+                files[] = {"HiddenZombie/scripts/5_Mission"};
+            };
         };
+
+        
     };
 };
 
