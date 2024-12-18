@@ -1,0 +1,11 @@
+enum InventoryAutoSort
+{
+    SORT_CARGO = 5452188,
+    STACK_CARGO = 5452199,
+<<<<<<< HEAD
+    CHECK_CARGO = 5452328,
+    SEND_CARGO = 3252211
+=======
+    CHECK_CARGO = 5452328
+>>>>>>> 44e944fde28666e46944e83837bd08c387384c85
+}

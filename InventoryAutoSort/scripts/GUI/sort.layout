@@ -1,0 +1,102 @@
+PanelWidgetClass rootFrame {
+ clipchildren 0
+ ignorepointer 1
+ position 66.04751 48.4418
+ size 292.83398 49.927
+ halign right_ref
+ valign center_ref
+ hexactpos 1
+ vexactpos 1
+ hexactsize 1
+ vexactsize 1
+ style blank
+ {
+  ButtonWidgetClass ButtonWidget0 {
+   position 40.4789 -1.83708
+   size 0.11547 0.78217
+   halign right_ref
+   valign center_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 0
+   vexactsize 0
+   style Default
+   {
+    ImageWidgetClass ImageWidget0 {
+     ignorepointer 1
+     position 0.72687 0.89401
+     size 25.8835 30.217
+     halign center_ref
+     valign center_ref
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     imageTexture "{8F31F622F3727BB7}InventoryAutoSort/scripts/GUI/Button_Sort.edds"
+     mode blend
+     "src alpha" 1
+     "clamp mode" clamp
+     "stretch mode" stretch_w_h
+     "flip u" 0
+     "flip v" 0
+    }
+   }
+  }
+  ButtonWidgetClass ButtonWidget1 {
+   position 253.69501 -1.67387
+   size 0.11734 0.77105
+   valign center_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 0
+   vexactsize 0
+   style Default
+   {
+    ImageWidgetClass ImageWidget2 {
+     ignorepointer 1
+     position -0.55962 0.86371
+     size 27.1667 30.0965
+     halign center_ref
+     valign center_ref
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     imageTexture "{46A989728AE88427}InventoryAutoSort/scripts/GUI/Button_Superpose.edds"
+     mode blend
+     "src alpha" 1
+     "clamp mode" clamp
+     "stretch mode" stretch_w_h
+     "flip u" 0
+     "flip v" 0
+    }
+   }
+  }
+  CheckBoxWidgetClass CheckMark {
+   visible 1
+   disabled 0
+   clipchildren 1
+   inheritalpha 1
+   position 50.745 -1.26524
+   size 0.13616 0.79606
+   halign center_ref
+   valign center_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 0
+   vexactsize 0
+   scaled 1
+   style Default
+   checked 0
+  }
+<<<<<<< HEAD
+
+
+
+
+
+
+=======
+>>>>>>> 44e944fde28666e46944e83837bd08c387384c85
+ }
+}
